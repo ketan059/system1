@@ -56,5 +56,10 @@ class Product extends Model
         return $result;
     }
 
+    public function deleteProductById($id)
+    {
+        return $this->destroy($id);
+    }
+
     
 }

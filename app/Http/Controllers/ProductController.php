@@ -80,4 +80,10 @@ class ProductController extends Controller
         return redirect()->route('showList.edit', ['id'=>$product->id]);
     }
 
+    public function delete($id)
+    {
+        $deleteProduct = $this->product->deleteProductById($id);
+        return redirect()->route('product.index');
+    }
+
 }

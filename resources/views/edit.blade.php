@@ -1,9 +1,12 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="container">
-<h2>商品情報編集画面</h2>
-<table>
+<!DOCTYPE HTML>  
+<html lang="ja">  
+<head>
+<link rel="stylesheet" href="{{asset('/css/style.css')}}">
+</head>
+<body>
+<div class="main__container">
+<h1>商品情報編集画面</h1>
+<table class="main__container__table">
 <form method="post" action="{{ route('product.update', ['id'=>$product->id]) }}">
 @csrf
     <tr>
@@ -46,8 +49,9 @@
         <th><div><label>商品画像</label></th> <td><input type="file" name="img_path" value="{{ $product->img_path }}"></div></td>
 </tr>
 <tr>
-        <td><button type="submit">更新</button><button type="button" onclick="location.href='{{ route('showList.detail', ['id'=>$product->id]) }}'">戻る</button></td>
+        <td></td><td class="main__container__td__btn"><button class="main__container__btn" type="submit">更新</button><button class="main__container__btn" type="button" onclick="location.href='{{ route('showList.detail', ['id'=>$product->id]) }}'">戻る</button></td>
 </tr>
     </form>
+</table>
 </div>
-@endsection
+
