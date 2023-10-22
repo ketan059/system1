@@ -23,14 +23,29 @@ class ProductController extends Controller
     }
 
     public function showListDetail($id) {
-        $product = Product::find($id);
-        return view('detail', compact('product'));
+
+        $result = Product::query()
+        ->select('products.*', 'companies.company_name')
+        ->join('companies','products.company_id','=','companies.id');
+
+        $result->where('products.id', '=', "$id");
+        $product = $result->first();
+
+        return view('detail', ['product' => $product]);
     }
 
     public function showListEdit($id) {
-        $product = Product::find($id);
+        $result = Product::query()
+                ->select('products.*', 'companies.company_name')
+                ->join('companies','products.company_id','=','companies.id');
+
+        $result->where('products.id', '=', "$id");
+        $product = $result->first();
+
         $company_lists = Companies::all();
+
         return view('edit', ['product' => $product, 'company_lists' => $company_lists]);
+
     }
 
     public function index(Request $request)
@@ -38,7 +53,10 @@ class ProductController extends Controller
         $keyword = $request->input('keyword');
         $company = $request->input('company');
 
-        $query = Product::query();
+        $query = Product::query()
+               ->select('products.*', 'companies.company_name')
+               ->join('companies','products.company_id','=','companies.id');
+
         $company_lists = Companies::all();
 
         if(!empty($keyword)) {
@@ -47,8 +65,7 @@ class ProductController extends Controller
         }
 
         if(!empty($company)) {
-            $query->where('product_name', 'LIKE', "$company")
-                ->orWhere('company_name', 'LIKE', "$company");
+            $query->where('company_id', '=', "$company");
         }
 
         $products = $query->get();
@@ -63,6 +80,7 @@ class ProductController extends Controller
     try {
         $model = new Product();
         $model->storeProduct($request);
+
         DB::commit();
     } catch (\Exception $e) {
         DB::rollback();

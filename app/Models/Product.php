@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $fillable = [
         'product_name',
-        'company_name',
+        'company_id',
         'price',
         'stock',
         'comment',
@@ -30,27 +30,44 @@ class Product extends Model
         return $products;
     }
 
+    public function getCompanyNameById()
+  {
+    return DB::table('products')
+            ->join('companies', 'products.company_id', '=', 'companies.id')
+            ->get();
+  }
+
     public function storeProduct($request) {
         // 登録処理
+
+        $dir = 'image';
+        $file_name = $request->file('img_path')->getClientOriginalName();
+        $request->file('img_path')->storeAs('public/' . $dir, $file_name);
+
         DB::table('products')->insert([
             'product_name' => $request->product_name,
-            'company_name' => $request->company_name,
+            'company_id' => $request->company_id,
             'price' => $request->price,
             'stock' => $request->stock,
             'comment' => $request->comment,
-            'img_path' => $request->img_path,
+            'img_path' => 'storage/' . $dir . '/' . $file_name,
         ]);
+
     }
 
     public function updateProduct($request, $product)
     {
+        $dir = 'image';
+        $file_name = $request->file('img_path')->getClientOriginalName();
+        $request->file('img_path')->storeAs('public/' . $dir, $file_name);
+
         $result = $product->fill([
             'product_name' => $request->product_name,
-            'company_name' => $request->company_name,
+            'company_id' => $request->company_id,
             'price' => $request->price,
             'stock' => $request->stock,
             'comment' => $request->comment,
-            'img_path' => $request->img_path,
+            'img_path' => 'storage/' . $dir . '/' . $file_name,
         ])->save();
 
         return $result;

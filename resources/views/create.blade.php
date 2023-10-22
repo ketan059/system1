@@ -7,7 +7,7 @@
 <div class="main__container">
 <h1>商品新規登録画面</h1>
 <table class="main__container__table">
-<form method="post" action="{{ route('product.store') }}">
+<form method="post" action="{{ route('product.store') }}" enctype="multipart/form-data">
 @csrf
 <tr>
         <th><label>商品名</label></th> <td><input type="text" name="product_name" id="product_name" value="{{ old('product_name') }}">
@@ -16,14 +16,14 @@
                     @endif</td>
 </tr>
 <tr>
-        <th><label>メーカー名</label></th> <td><select type="text" name="company_name" id="company_name" size="1" value="{{ old('company_name') }}">
+        <th><label>メーカー名</label></th> <td><select type="text" name="company_id"  size="1">
         <option value="" selected disabled>メーカー名</option>
         @foreach ($company_lists as $company_list)
-                <option>{{ $company_list->company_name }} </option>
+                <option value="{{ $company_list->id }}" id="company_id">{{ $company_list->company_name }} </option>
                 @endforeach
             </select>
-            @if($errors->has('company_name'))
-                        <p>{{ $errors->first('company_name') }}</p>
+            @if($errors->has('company_id'))
+                        <p>{{ $errors->first('company_id') }}</p>
                     @endif</td>
 </tr>
 <tr>

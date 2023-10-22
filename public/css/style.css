@@ -43,6 +43,10 @@ h1 {
   vertical-align:middle
 }
 
+.index__main__table__img {
+  width: 100px;
+}
+
 .index__main__table tr:nth-child(odd) td {
 	background: #fff;
 }

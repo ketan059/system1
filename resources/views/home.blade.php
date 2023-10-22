@@ -15,7 +15,7 @@
             <select type="text" name="company" size="1">
             <option value="" selected disabled>メーカー名</option>
                 @foreach ($company_lists as $company_list)
-                <option value="{{ $company_list->company_name }}" @if(old('company') == $company_list->company_name) selected @endif>{{ $company_list->company_name }} </option>
+                <option value="{{ $company_list->id }}" id="company_id">{{ $company_list->company_name }} </option>
                 @endforeach
             </select>
             <input class="index__search__btn" type="submit" value="検索">
@@ -37,7 +37,7 @@
     @forelse ($products as $product)
         <tr>
             <td>{{ $product->id }}</td>
-            <td>{{ $product->img_path }}</td>
+            <td><img src="{{ asset($product->img_path) }}" class="index__main__table__img"></td>
             <td>{{ $product->product_name }}</td>
             <td>￥{{ $product->price }}</td>
             <td>{{ $product->stock }}</td>

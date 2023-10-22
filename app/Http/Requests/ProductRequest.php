@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         return [
             'product_name' => 'required',
-            'company_name' => 'required',
+            'company_id' => 'required',
             'price' => 'required | alpha_num',
             'stock' => 'required | alpha_num',
         ];
@@ -35,7 +35,7 @@ class ProductRequest extends FormRequest
 {
     return [
         'product_name' => '商品名',
-        'company_name' => 'メーカー名',
+        'company_id' => 'メーカー名',
         'price' => '価格',
         'stock' => '在庫数',
     ];
@@ -44,7 +44,7 @@ class ProductRequest extends FormRequest
 public function messages() {
     return [
         'product_name.required' => ':attributeは必須項目です。',
-        'company_name.required' => ':attributeは必須項目です。',
+        'company_id.required' => ':attributeは必須項目です。',
         'price.required' => ':attributeは必須項目です。',
         'stock.required' => ':attributeは必須項目です。',
         'price.alpha_num' => ':attributeは:半角英数字で入力してください。',

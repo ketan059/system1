@@ -11,7 +11,7 @@
             <th>ID</th><td>{{ $product->id }}</td>
 </tr>
 <tr>
-            <th>商品画像</th><td>{{ $product->img_path }}</td>
+            <th>商品画像</th><td><img src="{{ asset($product->img_path) }}" class="index__main__table__img"></td>
 </tr>
 <tr>
             <th>商品名</th><td>{{ $product->product_name }}</td>
