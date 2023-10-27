@@ -60,12 +60,12 @@ class ProductController extends Controller
         $company_lists = Companies::all();
 
         if(!empty($keyword)) {
-            $query->where('product_name', 'LIKE', "%{$keyword}%")
-                ->orWhere('company_name', 'LIKE', "%{$keyword}%");
+            $query->where('products.product_name', 'LIKE', "%{$keyword}%")
+                ->orWhere('companies.company_name', 'LIKE', "%{$keyword}%");
         }
 
         if(!empty($company)) {
-            $query->where('company_id', '=', "$company");
+            $query->where('products.company_id', '=', "$company");
         }
 
         $products = $query->get();

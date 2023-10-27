@@ -34,7 +34,7 @@
         </tr>
     </thead>
     <tbody>
-    @forelse ($products as $product)
+    @foreach ($products as $product)
         <tr>
             <td>{{ $product->id }}</td>
             <td><img src="{{ asset($product->img_path) }}" class="index__main__table__img"></td>
@@ -47,12 +47,9 @@
           @csrf
           <button class="index__delete__btn" type="submit" onClick="delete_alert(event);return false;">削除</button>
         </form>
+        @endforeach
         </td>
         </tr>
-        @empty
-        <p>No data</p>
-    @endforelse
     </tbody>
   </table>
-
 </div>
