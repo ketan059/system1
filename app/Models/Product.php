@@ -65,18 +65,26 @@ class Product extends Model
         if(!empty($request->file('img_path'))){
             $file_name = $request->file('img_path')->getClientOriginalName();
             $request->file('img_path')->storeAs('public/' . $dir, $file_name);
-        } else {
-            $file_name = null;
-        }
 
-        $result = $product->fill([
-            'product_name' => $request->product_name,
-            'company_id' => $request->company_id,
-            'price' => $request->price,
-            'stock' => $request->stock,
-            'comment' => $request->comment,
-            'img_path' => 'storage/' . $dir . '/' . $file_name,
-        ])->save();
+            $result = $product->fill([
+                'product_name' => $request->product_name,
+                'company_id' => $request->company_id,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'comment' => $request->comment,
+                'img_path' => 'storage/' . $dir . '/' . $file_name,
+    
+            ])->save();
+        } else {
+            $result = $product->fill([
+                'product_name' => $request->product_name,
+                'company_id' => $request->company_id,
+                'price' => $request->price,
+                'stock' => $request->stock,
+                'comment' => $request->comment,
+    
+            ])->save();
+        }
 
         return $result;
     }
