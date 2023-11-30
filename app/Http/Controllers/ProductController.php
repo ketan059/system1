@@ -50,23 +50,12 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $company = $request->input('company');
 
         $query = Product::query()
                ->select('products.*', 'companies.company_name')
                ->join('companies','products.company_id','=','companies.id');
 
         $company_lists = Companies::all();
-
-        if(!empty($keyword)) {
-            $query->where('products.product_name', 'LIKE', "%{$keyword}%")
-                ->orWhere('companies.company_name', 'LIKE', "%{$keyword}%");
-        }
-
-        if(!empty($company)) {
-            $query->where('products.company_id', '=', "$company");
-        }
 
         $products = $query->get();
 
@@ -102,6 +91,29 @@ class ProductController extends Controller
     {
         $deleteProduct = $this->product->deleteProductById($id);
         return redirect()->route('product.index');
+    }
+
+    public function search(Request $request) {
+        $keyword = request()->get('keyword');
+        $company = request()->get('company');
+
+        $query = Product::query()
+               ->select('products.*', 'companies.company_name')
+               ->join('companies','products.company_id','=','companies.id');
+
+
+        if(!empty($keyword)) {
+            $query->where('products.product_name', 'LIKE', "%{$keyword}%")
+                ->orWhere('companies.company_name', 'LIKE', "%{$keyword}%");
+        }
+
+        if(!empty($company)) {
+            $query->where('products.company_id', '=', "$company");
+        }
+
+        $products = $query->get();
+
+        return response()->json(['products' => $products]);
     }
 
 }

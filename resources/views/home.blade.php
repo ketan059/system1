@@ -3,22 +3,25 @@
 <head>
 <link rel="stylesheet" href="{{asset('/css/style.css')}}">
 <script src="{{ asset('/js/app.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="{{ asset('/js/search.js') }}"></script>
 </head>
 <body>
 <div class="index__main__container">
 <h1>商品一覧画面</h1>
 <div class="index__search">
-    <form action="{{ route('product.index') }}" method="GET">
+    <form>
 
     @csrf
-            <input type="text" name="keyword" placeholder="検索キーワード">
-            <select type="text" name="company" size="1">
+            <input type="text" name="keyword" id="keyword" placeholder="検索キーワード">
+            <select type="text" name="company" id="company" size="1">
             <option value="" selected disabled>メーカー名</option>
                 @foreach ($company_lists as $company_list)
                 <option value="{{ $company_list->id }}" id="company_id">{{ $company_list->company_name }} </option>
                 @endforeach
             </select>
-            <input class="index__search__btn" type="submit" value="検索">
+            <input class="index__search__btn" id="index__search__btn" type="submit" value="検索">
         </form>
 </div>
     <table class="index__main__table">
@@ -33,7 +36,7 @@
             <th><button type="button" class="index__create__btn" onclick="location.href='{{ route('showList.create') }}'">{{ __('新規登録') }}</button></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="search_result">
     @foreach ($products as $product)
         <tr>
             <td>{{ $product->id }}</td>
