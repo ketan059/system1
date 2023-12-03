@@ -57,7 +57,7 @@ class ProductController extends Controller
 
         $company_lists = Companies::all();
 
-        $products = $query->get();
+        $products = $query->sortable('id','desc')->get();
 
         return view('home', ['products' => $products, 'company_lists' => $company_lists]);
     }
@@ -87,15 +87,25 @@ class ProductController extends Controller
         return redirect()->route('showList.edit', ['id'=>$product->id]);
     }
 
-    public function delete($id)
+    public function deletee($id)
     {
         $deleteProduct = $this->product->deleteProductById($id);
         return redirect()->route('product.index');
     }
 
+    public function delete(Request $request, Product $products)
+    {
+        $products = Product::findOrFail($request->id);
+        $products->delete();
+    }
+
     public function search(Request $request) {
         $keyword = request()->get('keyword');
         $company = request()->get('company');
+        $minPrice = request()->get('minPrice');
+        $maxPrice = request()->get('maxPrice');
+        $minStock = request()->get('minStock');
+        $maxStock = request()->get('maxStock');
 
         $query = Product::query()
                ->select('products.*', 'companies.company_name')
@@ -110,6 +120,23 @@ class ProductController extends Controller
         if(!empty($company)) {
             $query->where('products.company_id', '=', "$company");
         }
+
+        if((isset($minPrice)) && (isset($maxPrice))) {
+            $query->whereBetween('products.price',[$minPrice, $maxPrice]);
+        } elseif(isset($minPrice)) {
+            $query->where('products.price', '>=', $minPrice);
+        } elseif(isset($maxPrice)) {
+            $query->where('products.price', '<=', $maxPrice);
+        }
+
+        if((isset($minStock)) && (isset($maxStock))) {
+            $query->whereBetween('products.stock',[$minStock, $maxStock]);
+        } elseif(isset($minStock)) {
+            $query->where('products.stock', '>=', $minStock);
+        } elseif(isset($maxStock)) {
+            $query->where('products.stock', '<=', $maxStock);
+        }
+        
 
         $products = $query->get();
 

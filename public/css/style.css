@@ -8,6 +8,11 @@ h1 {
   font-size: 1.5rem;
 }
 
+a {
+  text-decoration: none;
+  color: #333;
+}
+
 .index__main__container {
   font-size: 1.2rem;
   width: 1000px;
@@ -138,6 +143,12 @@ input {
   padding: 4px;
   line-height: 1;
   width: 250px;
+}
+
+input[type=number]{
+  padding: 4px;
+  line-height: 1;
+  width: 100px;
 }
 
 select {

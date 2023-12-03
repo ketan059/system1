@@ -21,17 +21,21 @@
                 <option value="{{ $company_list->id }}" id="company_id">{{ $company_list->company_name }} </option>
                 @endforeach
             </select>
+          <input type="number" name="min_price" id="minPrice" placeholder="最小価格">
+          <input type="number" name="max_price" id="maxPrice" placeholder="最大価格">
+          <input type="number" name="min_stock" id="minStock" placeholder="最小在庫数">
+          <input type="number" name="max_stock" id="maxStock" placeholder="最大在庫数">
             <input class="index__search__btn" id="index__search__btn" type="submit" value="検索">
         </form>
 </div>
     <table class="index__main__table">
      <thead>
         <tr>
-            <th>ID</th>
+            <th>@sortablelink('id','ID')</th>
             <th>商品画像</th>
-            <th>商品名</th>
-            <th>価格</th>
-            <th>在庫数</th>
+            <th>@sortablelink('name','商品名')</th>
+            <th>@sortablelink('price','価格')</th>
+            <th>@sortablelink('stock','在庫数')</th>
             <th>メーカー名</th>
             <th><button type="button" class="index__create__btn" onclick="location.href='{{ route('showList.create') }}'">{{ __('新規登録') }}</button></th>
         </tr>
@@ -48,7 +52,7 @@
             <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='{{ route('showList.detail', ['id'=>$product->id]) }}'">{{ __('詳細') }}</button>
             <form class="index__main__form" action="{{ route('product.delete', ['id'=>$product->id]) }}" method="POST">
           @csrf
-          <button class="index__delete__btn" type="submit" onClick="delete_alert(event);return false;">削除</button>
+          <button data-product_id="{{ $product->id }}" class="index__delete__btn" type="submit" >削除</button>
         </form>
         @endforeach
         </td>
