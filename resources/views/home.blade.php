@@ -6,6 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="{{ asset('/js/search.js') }}"></script>
+<script src="{{ asset('/js/delete.js') }}"></script>
 </head>
 <body>
 <div class="index__main__container">
@@ -50,10 +51,9 @@
             <td>{{ $product->stock }}</td>
             <td>{{ $product->company_name }}</td>
             <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='{{ route('showList.detail', ['id'=>$product->id]) }}'">{{ __('詳細') }}</button>
-            <form class="index__main__form" action="{{ route('product.delete', ['id'=>$product->id]) }}" method="POST">
           @csrf
+          @method('DELETE')
           <button data-product_id="{{ $product->id }}" class="index__delete__btn" type="submit" >削除</button>
-        </form>
         @endforeach
         </td>
         </tr>

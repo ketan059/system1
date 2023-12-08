@@ -26,5 +26,5 @@ Route::post('/create', [App\Http\Controllers\ProductController::class, 'createPr
 Route::get('/detail{id}', [App\Http\Controllers\ProductController::class, 'showListDetail'])->name('showList.detail');
 Route::get('/edit{id}', [App\Http\Controllers\ProductController::class, 'showListEdit'])->name('showList.edit');
 Route::post('/update{id}', [App\Http\Controllers\ProductController::class, 'update'])->name('product.update');
-Route::post('/delete', [App\Http\Controllers\ProductController::class, 'delete'])->name('product.delete');
+Route::post('/destroy', [App\Http\Controllers\ProductController::class, 'destroy'])->name('product.destroy');
 Route::get('/search', [App\Http\Controllers\ProductController::class, 'search'])->name('search');

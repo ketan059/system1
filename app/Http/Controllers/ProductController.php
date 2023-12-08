@@ -93,11 +93,30 @@ class ProductController extends Controller
         return redirect()->route('product.index');
     }
 
-    public function delete(Request $request, Product $products)
+    public function deleteee(Request $request, Product $products)
     {
         $products = Product::findOrFail($request->id);
         $products->delete();
     }
+
+    public function destroy(Request $request) {
+        // dd($request);
+        $input = $request->all();
+        // dd($input);
+            DB::beginTransaction();
+    
+            try {
+              $product = Product::find($input['id']); 
+              $product->delete();
+    
+              DB::commit();
+              return response()->json(['success' => true]);
+    
+            } catch (\Exception $e) {
+                DB::rollback();
+                return response()->json(['success' => false, 'message' => '削除に失敗しました']);
+            }
+        }
 
     public function search(Request $request) {
         $keyword = request()->get('keyword');
