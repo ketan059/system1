@@ -87,6 +87,7 @@ class ProductController extends Controller
         return redirect()->route('showList.edit', ['id'=>$product->id]);
     }
 
+    /*
     public function deletee($id)
     {
         $deleteProduct = $this->product->deleteProductById($id);
@@ -98,6 +99,7 @@ class ProductController extends Controller
         $products = Product::findOrFail($request->id);
         $products->delete();
     }
+    */
 
     public function destroy(Request $request) {
         // dd($request);
