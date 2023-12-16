@@ -21,6 +21,8 @@ class Product extends Model
         'img_path',
      ];
 
+    public $sortable = ['id', 'name', 'price', 'stock'];
+
      // companiesモデルとの紐付け
     public function companies() {
         return $this->hasMany('App\Companies');

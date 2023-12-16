@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Companies;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
+use Kyslik\ColumnSortable\Sortable;
 
 class ProductController extends Controller
 {
@@ -50,12 +51,43 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
+        $keyword = session('search.keyword');
+        $company = session('search.company');
+        $minPrice = session('search.minPrice');
+        $maxPrice = session('search.maxPrice');
+        $minStock = session('search.minStock');
+        $maxStock = session('search.maxStock');
 
         $query = Product::query()
                ->select('products.*', 'companies.company_name')
                ->join('companies','products.company_id','=','companies.id');
 
         $company_lists = Companies::all();
+
+        if(!empty($keyword)) {
+            $query->where('products.product_name', 'LIKE', "%{$keyword}%")
+                ->orWhere('companies.company_name', 'LIKE', "%{$keyword}%");
+        }
+
+        if(!empty($company)) {
+            $query->where('products.company_id', '=', "$company");
+        }
+
+        if((isset($minPrice)) && (isset($maxPrice))) {
+            $query->whereBetween('products.price',[$minPrice, $maxPrice]);
+        } elseif(isset($minPrice)) {
+            $query->where('products.price', '>=', $minPrice);
+        } elseif(isset($maxPrice)) {
+            $query->where('products.price', '<=', $maxPrice);
+        }
+
+        if((isset($minStock)) && (isset($maxStock))) {
+            $query->whereBetween('products.stock',[$minStock, $maxStock]);
+        } elseif(isset($minStock)) {
+            $query->where('products.stock', '>=', $minStock);
+        } elseif(isset($maxStock)) {
+            $query->where('products.stock', '<=', $maxStock);
+        }
 
         $products = $query->sortable('id','desc')->get();
 
@@ -128,6 +160,16 @@ class ProductController extends Controller
         $minStock = request()->get('minStock');
         $maxStock = request()->get('maxStock');
 
+        session_start();
+        session([
+            'search.keyword' => $keyword,
+            'search.company' => $company,
+            'search.minPrice' => $minPrice,
+            'search.maxPrice' => $maxPrice,
+            'search.minStock' => $minStock,
+            'search.maxStock' => $maxStock,
+            ]);
+
         $query = Product::query()
                ->select('products.*', 'companies.company_name')
                ->join('companies','products.company_id','=','companies.id');
@@ -159,7 +201,7 @@ class ProductController extends Controller
         }
         
 
-        $products = $query->get();
+        $products = $query->sortable('id','desc')->get();
 
         return response()->json(['products' => $products]);
     }

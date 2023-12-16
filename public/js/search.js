@@ -40,15 +40,13 @@ $('#index__search__btn').on('click', function(e){
             var html = `
             <tr>
             <td>${product.id}</td>
-            <td><img src="{{ asset(${product.img_path}) }}" class="index__main__table__img"></td>
+            <td><img src="http://localhost/system1/public/${product.img_path}" class="index__main__table__img"></td>
             <td>${product.product_name}</td>
             <td>￥${product.price}</td>
             <td>${product.stock}</td>
             <td>${product.company_name}</td>
-            <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='{{ route('showList.detail', ['id'=>${product.id}]) }}'">詳細</button>
-            <form class="index__main__form" action="{{ route('product.delete', ['id'=>${product.id}]) }}" method="POST">
-          <button class="index__delete__btn" type="submit" onClick="delete_alert(event);return false;">削除</button>
-        </form>
+            <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='http://localhost/system1/public/detail${product.id}'">詳細</button>
+            <button data-product_id="${product.id}" class="index__delete__btn" type="submit" >削除</button>
         </td>
         </tr>
             `;
