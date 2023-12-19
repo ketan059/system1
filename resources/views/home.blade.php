@@ -6,7 +6,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="{{ asset('/js/search.js') }}"></script>
-<script src="{{ asset('/js/delete.js') }}"></script>
 </head>
 <body>
 <div class="index__main__container">
@@ -59,4 +58,7 @@
         </tr>
     </tbody>
   </table>
+  <script>
+  destroy();
+  </script>
 </div>

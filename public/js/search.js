@@ -1,5 +1,37 @@
+function destroy(){
+    $('.index__delete__btn').on('click', function() {
+        var deleteConfirm = confirm('削除しますか？');
+        if(deleteConfirm == true) {
+            var clickEle = $(this)
+            var productID = clickEle.attr('data-product_id');
+            var deleteTarget = clickEle.closest('tr');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: 'destroy',
+                dataType: 'json',
+                data: {'id': productID},
+            })
+            .done(function() {
+                console.log('通信成功');
+                deleteTarget.remove();
+            })
+            .fail(function() {
+                console.log('通信失敗');
+                alert('エラー');
+            });
+        }  else {
+            (function(e) {
+              e.preventDefault()
+            });
+        };
+      });
+    };
+
 $(function() {
-$('#index__search__btn').on('click', function(e){
+    $('#index__search__btn').on('click', function(e){
     e.preventDefault();
     var keyword = $('#keyword').val();
     var company = $('#company').val();
@@ -46,11 +78,14 @@ $('#index__search__btn').on('click', function(e){
             <td>${product.stock}</td>
             <td>${product.company_name}</td>
             <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='http://localhost/system1/public/detail${product.id}'">詳細</button>
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="_method" value="DELETE">
             <button data-product_id="${product.id}" class="index__delete__btn" type="submit" >削除</button>
         </td>
         </tr>
             `;
         $result.append(html);
+        destroy();
     });
     }).fail(function(){
         alert('通信の失敗をしました');
