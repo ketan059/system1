@@ -79,12 +79,12 @@ $(function() {
             <td>${product.company_name}</td>
             <td class="index__main__td__btn"><button class="index__detail__btn" type="button" onclick="location.href='http://localhost/system1/public/detail${product.id}'">詳細</button>
             <button data-product_id="${product.id}" class="index__delete__btn" type="submit" >削除</button>
-        </td>
-        </tr>
+            </td>
+            </tr>
             `;
-        $result.append(html);
-        destroy();
-    });
+            $result.append(html);
+        });
+    destroy();
     }).fail(function(){
         alert('通信の失敗をしました');
     });
